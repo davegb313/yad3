@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import MakeListing from './MakeListing';
+import Listings from './Listings';
+
+class App extends React.Component {
+
+  state = {
+    listings: [],
+  }
+
+  componentDidMount(){
+    fetch('/listing')
+      .then(response => response.json())
+      .then(listings => this.setState({ listings }))
+  }
+
+  reload = ()=> fetch('/listing')
+    .then(response => response.json())
+    .then(listings => this.setState({ listings }));
+
+  render() {
+    return (
+      <div className="App">
+        <Listings listings={this.state.listings}/>
+        <MakeListing triggerReload={this.reload}/>
+      </div>
+    );
+  }
 }
 
 export default App;
