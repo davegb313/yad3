@@ -52,7 +52,8 @@ ul {
 }
 
 
-.MakeListing {
+.MakeListing,
+.Login {
   height: calc(40vh - 2px);
   width: 100vw;
   background-color: #ccc;
@@ -64,7 +65,8 @@ ul {
   justify-content: space-around;
 }
 
-.MakeListing label {
+.MakeListing label,
+.Login label {
   width: 80%;
   display: flex;
   justify-content: space-around;
@@ -80,24 +82,31 @@ ul {
   width: 250px;
 }
 
-.MakeListing input {
+.MakeListing input,
+.Login.waiting img {
   width: 250px;
 }
 
-.MakeListing.waiting img {
+.MakeListing.waiting img,
+.Login.waiting img {
   display: initial;
 }
 
 .MakeListing.waiting label,
-.MakeListing.waiting button {
+.MakeListing.waiting button,
+.Login.waiting label,
+.Login.waiting button {
   display: none;
 }
 
-.MakeListing:not(.waiting) img {
+.MakeListing:not(.waiting) img,
+.Login:not(.waiting) img {
   display: none;
 }
 
 .MakeListing:not(.waiting) label,
-.MakeListing:not(.waiting) button {
+.MakeListing:not(.waiting) button,
+.Login:not(.waiting) label,
+.Login:not(.waiting) button {
   display: flex;
 }

@@ -6,12 +6,12 @@ const connectionString = 'postgres://yad3:admin@localhost:5432/yad3';
 
 const ORM = require('sequelize');
 const connection = new ORM(connectionString, { logging: false });
-const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const fakeData = require('./fakeData');
 
 const auth = (req, res, next)=>{
   const authHeader = req.get('Authorization') || '';
-
+const calculateHash = require('./hash');
   const token = authHeader.split(' ')[1];
 
   jwt.verify(token, 'jwt secret code', (err, decoded)=>{
@@ -81,7 +81,9 @@ connection.authenticate()
 
 app.get('/hydrate', (req, res)=> {
   User.sync({ force: true })
+      .then(()=> User.bulkCreate(fakeData.users))
       .then(()=> Listing.sync({ force: true }))
+      .then(()=> Listing.bulkCreate(fakeData.listings))
       .then(()=> res.json({ message: 'successfully created tables' }))
       .catch(err=> {
         console.error(err);
@@ -111,13 +113,11 @@ app.get('/listing', (req, res)=> {
     });
 });
 // takes a pass and encrypt it in a HASH
-const calculateHash = password => crypto.pbkdf2Sync(
-  req.body.password, 'secret code', 100, 64, 'sha512'
-).toString('hex');
+
 
 app.post('/user', (req, res)=> {
   //sign up
-  const passwordHash = calculateHash(req.body.password);
+const passwordHash = calculateHash(req.body.password);
   User.create({
     email: req.body.email,
     passwordHash,

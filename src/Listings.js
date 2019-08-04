@@ -1,5 +1,5 @@
 import React from 'react';
-
+import house from './house.png';
 class Listings extends React.Component {
   render(){
     return (
@@ -7,7 +7,7 @@ class Listings extends React.Component {
         <ul>
           {this.props.listings.map(listing => (
             <li className='listing' key={listing.id}>
-              <img alt='' src={listing.images[0]} />
+              <img alt='' src={listing.images[0] || house} />
               <div>
                 <span className='date'>
                   {(new Date(listing.createdAt))
