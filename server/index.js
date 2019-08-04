@@ -128,9 +128,9 @@ const passwordHash = calculateHash(req.body.password);
 app.post('/login', (req, res)=> {
   //login
   const passwordHash = calculateHash(req.body.password);
-  User.findOne({ where: {email: req.body.email} })
+  User.findOne({ where: {email: req.body.email, passwordHash} })
   .then(userResponse=> {
-    if(userResponse && (userResponse.dataValues.passwordHash === passwordHash)) {
+    if(userResponse) {
       //make jwt
       jwt.sign({ id: userResponse.dataValues.id },
       'jwt secret code',

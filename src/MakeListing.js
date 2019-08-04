@@ -39,7 +39,10 @@ class MakeListing extends React.Component {
     })
     fetch('/listing', {
       method: 'POST',
-      headers: { "content-Type" : "application/json" },
+      headers: {
+        "content-Type" : "application/json"
+        Authorization: 'Bearer '+this.props.token,
+       },
       body: JSON.stringify({
         title: this.state.title,
         description: this.state.description,
